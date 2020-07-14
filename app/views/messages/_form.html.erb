@@ -16,14 +16,8 @@
     <%= form.text_area :content %>
   </div>
 
-  <div class="field"> 
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
-  </div>
-
-
   <div class="field">
-    <%= form.label :room_id %>
+    <%= form.hidden_field :room_id %>
     <%= form.hidden_field :room_id, value: room.id %>
   </div>
 
@@ -31,3 +25,9 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+
+<div class="field">
+  <p>Current User: <%= current_user.username %></p>
+  <p>Current Room: <%= room.id %></p>
+</div> 
