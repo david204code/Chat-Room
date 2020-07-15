@@ -28,12 +28,13 @@ class MessagesController < ApplicationController
     @message.user = current_user
 
     @message.save
+    SendMessageJob.perform_later(@message)
     # will redirect because of render!
-    html = render(
-      partial: 'messages/message', 
-      locals: { message: @message }
-    )
-    ActionCable.server.broadcast "room_channel_#{@message.room_id}", html: html
+    # html = render(
+    #   partial: 'messages/message', 
+    #   locals: { message: @message }
+    # )
+    # ActionCable.server.broadcast "room_channel_#{@message.room_id}", html: html
 
     # if @message.save
     #   redirect_to request.referrer
