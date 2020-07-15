@@ -27,11 +27,19 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.user = current_user
 
-    if @message.save
-      redirect_to request.referrer
-    else
-      render json: @message.errors, status: :unprocessable_entity
-    end
+    @message.save
+    # will redirect because of render!
+    html = render(
+      partial: 'messages/message', 
+      locals: { message: @message }
+    )
+    ActionCable.server.broadcast "room_channel_#{@message.room_id}", html: html
+
+    # if @message.save
+    #   redirect_to request.referrer
+    # else
+    #   render json: @message.errors, status: :unprocessable_entity
+    # end
 
   end
 
